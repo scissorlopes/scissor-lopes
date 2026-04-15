@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scissor Lopes</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body {
+  background: #050208;
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: white;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  padding: 25px;
+  border-radius: 25px;
+  background: linear-gradient(180deg, #160826, #050208);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  background: #7b4eb3;
+  font-weight: bold;
+}
+
+textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  background: #00000055;
+  margin: 10px 0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1 style="font-weight:900; font-size:24px;">SCISSOR LOPES</h1>
+  <p style="font-size:12px; opacity:0.6;">Consultor de Estilo</p>
+
+  <textarea id="input" placeholder="Ex: Qual corte combina comigo?"></textarea>
+  <button onclick="consultar()">Analisar ✨</button>
+
+  <div id="resposta" style="margin-top:15px; font-size:13px;"></div>
+</div>
+
+<script>
+async function consultar() {
+  const input = document.getElementById("input").value;
+  const resDiv = document.getElementById("resposta");
+
+  resDiv.innerText = "Analisando...";
+
+  try {
+    const res = await fetch("/api/ai", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ query: input })
+    });
+
+    const data = await res.json();
+    resDiv.innerText = data.text;
+
+  } catch (err) {
+    resDiv.innerText = "Erro ao consultar IA.";
+  }
+}
+</script>
+
+</body>
+</html>
