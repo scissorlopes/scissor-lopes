@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
     res.status(200).json({
-      text: text || "Resposta vazia da IA"
+      text: text || "Sem resposta da IA"
     });
 
   } catch (error) {
